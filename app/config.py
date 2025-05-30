@@ -1,5 +1,6 @@
 from pydantic import SecretStr, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from dotenv import find_dotenv
 
 
 class DBSettings(BaseSettings):
@@ -9,7 +10,7 @@ class DBSettings(BaseSettings):
     db_host: str
     db_port: int
 
-    model_config = SettingsConfigDict(env_file='../.env', extra='ignore')
+    model_config = SettingsConfigDict(env_file=find_dotenv(), extra='ignore')
 
     @property
     def db_url(self):
@@ -22,7 +23,7 @@ class SecuritySettings(BaseSettings):
     access_token_expire: int = Field(validation_alias='SEC_ACCESS_TOKEN_EXPIRE_MINUTES')
     refresh_token_expire: int = Field(validation_alias='SEC_REFRESH_TOKEN_EXPIRE_MINUTES')
 
-    model_config = SettingsConfigDict(env_file='../.env', extra='ignore')
+    model_config = SettingsConfigDict(env_file=find_dotenv(), extra='ignore')
 
 class Settings(BaseSettings):
     db_settings: DBSettings = DBSettings()
